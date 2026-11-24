@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Panduan Layanan Pertanahan Sergai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Palet: krem hangat, oranye bata, tinta cokelat tua. Tata letak: panggung isometrik yang bergulir, lalu bagian konten biasa. */
+  --bg:#FBF1E7; --bg-2:#F4E1CF; --surface:#FFFFFF; --ink:#1D1712; --muted:#6B5E53;
+  --accent:#E8591F; --accent-ink:#B8420F; --line:rgba(29,23,18,.12);
+  --display:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--display);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{text-wrap:balance}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Navigasi */
+.nav{position:fixed;z-index:30;top:12px;left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 24px));display:flex;align-items:center;gap:16px;padding:8px 8px 8px 16px;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:999px;box-shadow:0 8px 30px rgba(120,70,30,.10)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em;text-decoration:none;white-space:nowrap}
+.brand svg{width:28px;height:28px;flex:none}
+.nav ul{display:flex;gap:4px;list-style:none;margin:0 auto;padding:0}
+.nav li a{display:block;padding:7px 12px;border-radius:999px;font-size:13.5px;font-weight:600;color:var(--muted);text-decoration:none}
+.nav li a:hover{color:var(--ink);background:rgba(29,23,18,.05)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:11px 20px;font-weight:700;font-size:14.5px;background:var(--ink);color:#fff;text-decoration:none;transition:transform .15s,background .15s}
+.btn:hover{background:#000;transform:translateY(-1px)}
+.btn.accent{background:var(--accent)}
+.btn.accent:hover{background:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.ghost:hover{background:rgba(29,23,18,.05);transform:none}
+.btn.sm{padding:8px 16px;font-size:13.5px}
+.btn[disabled]{opacity:.35;cursor:not-allowed;transform:none}
+.arrow{width:14px;height:14px}
+
+/* Panggung bergulir */
+.track{position:relative;height:720vh}
+.stage{position:sticky;top:0;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:radial-gradient(900px 600px at 68% 48%,#FFF9F2 0%,#F9E9D8 60%,#F2DBC5 100%)}
+#world{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
+.stage::before,.stage::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none}
+.stage::after{background:linear-gradient(90deg,rgba(251,241,231,.97) 0,rgba(251,241,231,.93) 30%,rgba(251,241,231,0) 47%)}
+.stage::before{top:auto;height:110px;z-index:2;background:linear-gradient(0deg,rgba(251,241,231,.95),rgba(251,241,231,0))}
+.copy{position:absolute;z-index:3;left:max(24px,6vw);top:calc(50% + 30px);transform:translateY(-50%);width:min(500px,42vw);display:grid}
+.step{grid-area:1/1;opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .5s,transform .5s,visibility 0s .5s}
+.step.on{opacity:1;visibility:visible;transform:none;transition:opacity .5s .08s,transform .5s .08s,visibility 0s}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.step h1,.step h2{font-size:clamp(34px,4.1vw,54px);line-height:1.02;letter-spacing:-.03em;font-weight:800;margin:14px 0 16px}
+.step h1 span,.step h2 span,.h2 span{color:var(--accent);display:block}
+.step p.lead{color:var(--muted);font-size:clamp(15px,1.25vw,17px);max-width:44ch}
+.facts{margin:22px 0 0;padding:14px 16px;background:var(--surface);border-radius:18px;box-shadow:0 10px 30px rgba(120,70,30,.12);max-width:420px;display:grid;gap:8px}
+.facts div{display:flex;justify-content:space-between;gap:16px;font-size:13.5px;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.facts div:last-child{border:0;padding-bottom:0}
+.facts dt{color:var(--muted)}
+.facts dd{margin:0;font-weight:700;text-align:right}
+.facts dd.hl{color:var(--accent-ink);font-size:15px}
+.stats{display:flex;gap:26px;margin-top:26px}
+.stats b{display:block;font-size:26px;letter-spacing:-.02em;line-height:1.1}
+.stats small{font-size:12px;color:var(--muted);display:block;max-width:15ch;line-height:1.3}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.rail{z-index:3;position:absolute;left:max(24px,6vw);right:max(24px,6vw);bottom:22px;display:flex;gap:0;border-top:1px solid var(--line)}
+.rail button{flex:1;background:none;border:0;padding:12px 4px 0;text-align:left;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#A29487;position:relative}
+.rail button::before{content:"";position:absolute;left:0;top:-4px;width:7px;height:7px;border-radius:50%;background:#CDBBAA}
+.rail button.on{color:var(--ink)}
+.rail button.on::before{background:var(--accent);box-shadow:0 0 0 4px rgba(232,89,31,.2)}
+.rail button.past::before{background:var(--accent)}
+.hint{z-index:3;position:absolute;left:50%;bottom:62px;transform:translateX(-50%);font-size:12px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:6px;transition:opacity .3s;pointer-events:none}
+.hint i{display:block;width:16px;height:26px;border:1.5px solid var(--muted);border-radius:10px;position:relative}
+.hint i::after{content:"";position:absolute;left:50%;top:5px;width:3px;height:6px;margin-left:-1.5px;border-radius:2px;background:var(--muted);animation:wheel 1.6s infinite}
+@keyframes wheel{0%{opacity:1;transform:translateY(0)}70%{opacity:0;transform:translateY(8px)}100%{opacity:0}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes fall{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(7px) rotate(14deg)}}
+@keyframes pulse{0%{r:10;opacity:.5}100%{r:26;opacity:0}}
+.bob{animation:bob 2.4s ease-in-out infinite}
+.fall{animation:fall 2.8s ease-in-out infinite}
+.fall:nth-child(2n){animation-delay:-.9s}.fall:nth-child(3n){animation-delay:-1.7s}
+.halo{animation:pulse 1.8s ease-out infinite}
+
+/* Bagian umum */
+section.page{max-width:1160px;margin:0 auto;padding:96px 24px 24px}
+.h2{font-size:clamp(32px,4vw,52px);line-height:1.05;letter-spacing:-.03em;font-weight:800;margin:12px 0 14px}
+.sub{color:var(--muted);max-width:60ch}
+.chips{display:flex;gap:8px;margin:28px 0 22px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.chip{flex:none;border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:8px 16px;font-size:13.5px;font-weight:600;color:var(--muted)}
+.chip:hover{border-color:var(--ink);color:var(--ink)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(262px,1fr));gap:16px}
+.card{background:var(--surface);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 0 var(--line),0 14px 34px rgba(120,70,30,.07);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 1px 0 var(--line),0 20px 40px rgba(120,70,30,.14)}
+.tag{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink)}
+.card h3{font-size:18px;line-height:1.25;letter-spacing:-.01em}
+.time{margin-top:auto;background:#FFF1E6;border-radius:14px;padding:10px 14px}
+.time b{display:block;font-size:20px;letter-spacing:-.02em;color:var(--accent-ink);line-height:1.2}
+.time small{display:block;color:var(--muted);font-size:12.5px;line-height:1.35;margin-top:2px}
+.card .btn{justify-content:center}
+
+/* Standar waktu */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px;align-items:stretch}
+.plan{background:var(--surface);border-radius:26px;padding:28px 26px;display:flex;flex-direction:column;gap:14px;box-shadow:0 1px 0 var(--line);position:relative}
+.plan.hot{background:var(--ink);color:#fff;box-shadow:0 26px 60px rgba(29,23,18,.28);transform:translateY(-10px)}
+.plan .badge{position:absolute;top:-12px;left:26px;background:var(--accent);color:#fff;font-size:11.5px;font-weight:800;padding:5px 12px;border-radius:999px;letter-spacing:.04em}
+.plan h3{font-size:15px;font-weight:700;color:var(--muted)}
+.plan.hot h3{color:#E8D5C4}
+.plan .num{font-size:clamp(40px,4.4vw,56px);font-weight:800;letter-spacing:-.04em;line-height:1}
+.plan .num small{font-size:16px;font-weight:600;letter-spacing:0;color:var(--muted);margin-left:6px}
+.plan.hot .num small{color:#E8D5C4}
+.plan ul{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:14.5px}
+.plan li{display:flex;gap:10px}
+.plan li::before{content:"";flex:none;width:18px;height:18px;margin-top:2px;border-radius:50%;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.5l2.6 2.5L13 6.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/18px no-repeat}
+.plan .src{margin-top:auto;font-size:12.5px;color:var(--muted)}
+.plan.hot .src{color:#CDB9A7}
+
+/* Dasar hukum */
+.laws{display:grid;gap:12px;margin-top:30px;counter-reset:law}
+.law{display:grid;grid-template-columns:44px 1fr;gap:16px;background:var(--surface);border-radius:20px;padding:20px 22px;box-shadow:0 1px 0 var(--line)}
+.law::before{counter-increment:law;content:counter(law);width:44px;height:44px;border-radius:14px;background:#FFE7D6;color:var(--accent-ink);font-weight:800;display:grid;place-items:center;font-size:17px}
+.law h3{font-size:17px;line-height:1.3}
+.law p{color:var(--muted);font-size:14.5px;margin-top:4px;max-width:78ch}
+.law .meta{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-ink);margin-bottom:4px}
+
+/* Tanya jawab */
+.faq{margin-top:30px;display:grid;gap:10px;max-width:860px}
+.faq details{background:var(--surface);border-radius:18px;padding:0 22px;box-shadow:0 1px 0 var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:18px 0;font-weight:700;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:22px;line-height:1;color:var(--accent);transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--muted);padding:0 0 18px;max-width:68ch}
+
+/* Kontak */
+.contact{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;margin-top:30px}
+.panel{background:var(--ink);color:#fff;border-radius:28px;padding:32px;display:flex;flex-direction:column;gap:16px}
+.panel h3{font-size:26px;letter-spacing:-.02em;line-height:1.15}
+.panel p{color:#E3D3C3}
+.panel dl{display:grid;gap:12px;margin:6px 0 0}
+.panel dt{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#CDB9A7;font-weight:700}
+.panel dd{margin:2px 0 0;font-weight:600}
+.panel .cta{margin-top:auto;padding-top:8px}
+.panel .btn.ghost{color:#fff;border-color:rgba(255,255,255,.3)}
+.panel .btn.ghost:hover{background:rgba(255,255,255,.1)}
+.side-cards{display:grid;gap:14px}
+.mini{background:var(--surface);border-radius:22px;padding:22px;box-shadow:0 1px 0 var(--line)}
+.mini h3{font-size:17px;margin-bottom:6px}
+.mini p{color:var(--muted);font-size:14.5px}
+.mini a{color:var(--accent-ink);font-weight:700}
+
+footer{max-width:1160px;margin:60px auto 0;padding:34px 24px 60px;border-top:1px solid var(--line);display:grid;gap:14px;color:var(--muted);font-size:13.5px}
+footer ul{display:flex;flex-wrap:wrap;gap:6px 20px;list-style:none;margin:0;padding:0}
+footer a{color:var(--accent-ink);font-weight:600}
+footer .note{max-width:80ch}
+
+/* Panduan (modal) */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(29,23,18,.5);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);display:grid;place-items:center;padding:16px}
+.modal[hidden]{display:none}
+.sheet{width:min(900px,100%);height:min(660px,100%);background:var(--surface);border-radius:26px;overflow:hidden;display:grid;grid-template-columns:270px 1fr;box-shadow:0 40px 100px rgba(0,0,0,.35)}
+.side{background:var(--ink);color:#fff;padding:22px;display:flex;flex-direction:column;gap:18px;overflow:auto}
+.side svg{width:100%;height:auto;border-radius:16px;background:#2C241E;display:block}
+.side h3{font-size:20px;letter-spacing:-.01em}
+.wsteps{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:w}
+.wsteps li{display:flex;gap:10px;align-items:center;font-size:14px;color:#A89A8C;font-weight:600}
+.wsteps li::before{counter-increment:w;content:counter(w);width:24px;height:24px;border-radius:50%;border:1.5px solid #5B4E44;display:grid;place-items:center;font-size:12px;flex:none}
+.wsteps li.on{color:#fff}
+.wsteps li.on::before{background:var(--accent);border-color:var(--accent)}
+.wsteps li.past{color:#E3D3C3}
+.wsteps li.past::before{content:"";background:#E8591F url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.5l2.6 2.5L13 6.5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat;border-color:var(--accent)}
+.wsum{margin-top:auto;border-top:1px solid #4A3F37;padding-top:14px;font-size:13px;color:#E3D3C3;display:grid;gap:4px}
+.wsum b{color:#fff;font-size:14px}
+.wmain{display:flex;flex-direction:column;min-width:0;position:relative}
+.wbody{flex:1;overflow:auto;padding:30px 32px 16px}
+.wbody h2{font-size:26px;letter-spacing:-.02em;line-height:1.15;margin-bottom:6px}
+.wbody .lead{color:var(--muted);margin-bottom:18px;max-width:56ch}
+.wfoot{display:flex;justify-content:space-between;gap:10px;padding:14px 32px 22px;border-top:1px solid var(--line)}
+.x{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(29,23,18,.06);font-size:20px;line-height:1;z-index:2}
+.x:hover{background:rgba(29,23,18,.12)}
+#wq{width:100%;padding:12px 16px;border-radius:14px;border:1.5px solid var(--line);font:inherit;background:#fff;margin-bottom:12px}
+#wq:focus{outline:3px solid rgba(232,89,31,.35);border-color:var(--accent)}
+.chips.small{margin:0 0 12px}
+.chips.small .chip{padding:6px 12px;font-size:12.5px}
+.list{display:grid;gap:8px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:14px;text-align:left;width:100%;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;font-weight:600;font-size:14.5px}
+.row em{font-style:normal;font-size:12.5px;font-weight:700;color:var(--accent-ink);background:#FFF1E6;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.row:hover{border-color:var(--ink)}
+.row.on{border-color:var(--accent);background:#FFF8F2;box-shadow:0 0 0 3px rgba(232,89,31,.18)}
+.empty{color:var(--muted);padding:12px 4px}
+.checks{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.checks label{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1.5px solid var(--line);border-radius:14px;cursor:pointer;font-size:14.5px;line-height:1.4}
+.checks input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--accent);flex:none}
+.checks label:has(input:checked){border-color:var(--accent);background:#FFF8F2}
+.checks label:has(input:checked) span{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(29,23,18,.3)}
+.hintline{font-size:13px;color:var(--muted);margin-top:14px;max-width:62ch}
+.big{font-size:clamp(40px,6vw,64px);font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--accent-ink)}
+.kv{display:grid;gap:0;margin-top:18px;border:1.5px solid var(--line);border-radius:16px;overflow:hidden}
+.kv div{display:grid;grid-template-columns:130px 1fr;gap:12px;padding:13px 16px;font-size:14.5px}
+.kv div+div{border-top:1px solid var(--line)}
+.kv dt{color:var(--muted);font-weight:600}
+.kv dd{margin:0}
+.sum{background:#FFF8F2;border:1.5px solid #F5C9AE;border-radius:18px;padding:18px 20px;display:grid;gap:6px}
+.sum b{font-size:18px}
+textarea.manual{width:100%;min-height:110px;margin-top:12px;border-radius:12px;border:1.5px solid var(--line);padding:10px;font:inherit;font-size:13px}
+
+@media (max-height:700px) and (min-width:821px){
+  .step h1,.step h2{font-size:clamp(30px,3.5vw,42px);margin:10px 0 12px}
+  .stats,.cta{margin-top:14px}
+  .step p.lead{font-size:14.5px}
+  .facts{margin-top:14px}
+}
+@media (max-width:980px){
+  .nav ul{display:none}
+  .nav .btn{margin-left:auto}
+  .plans{grid-template-columns:1fr;gap:26px}
+  .plan.hot{transform:none}
+  .contact{grid-template-columns:1fr}
+}
+@media (max-width:820px){
+  .track{height:640vh}
+  .copy{left:14px;right:14px;top:auto;bottom:66px;transform:none;width:auto;background:rgba(251,241,231,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:24px;padding:18px 18px 20px;align-content:end}
+  .step h1,.step h2{font-size:clamp(26px,7.6vw,34px);margin:8px 0 10px}
+  .step p.lead{font-size:14px}
+  .facts{margin-top:14px;padding:10px 14px;gap:6px}
+  .facts div{font-size:12.5px;padding-bottom:6px}
+  .stats{gap:16px;margin-top:14px}
+  .stats b{font-size:20px}
+  .cta{margin-top:14px}
+  .rail{left:14px;right:14px;bottom:14px}
+  .rail button{font-size:0;padding-top:10px}
+  .rail button.on{font-size:10.5px}
+  .hint{display:none}
+  .stage::after{display:none}
+  .stage::before{height:0}
+  .copy{z-index:3}
+  section.page{padding:72px 16px 8px}
+  .sheet{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:100%;border-radius:22px}
+  .side{flex-direction:row;align-items:center;padding:14px 16px;overflow:hidden}
+  .side svg,.side h3,.wsum{display:none}
+  .wsteps{display:flex;gap:6px;width:100%;justify-content:space-between;padding-right:40px}
+  .wsteps li{font-size:0;gap:0}
+  .wsteps li.on{font-size:13px;gap:8px}
+  .wbody{padding:22px 18px 10px}
+  .wfoot{padding:12px 18px 16px}
+  .kv div{grid-template-columns:1fr;gap:2px}
+  .x{background:rgba(255,255,255,.14);color:#fff;top:12px;right:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="#alur" aria-label="Panduan Layanan Pertanahan Sergai">
+    <svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="9" fill="#E8591F"/><path d="M14 6l7.5 4.3v8.4L14 23l-7.5-4.3v-8.4z" fill="#fff" opacity=".28"/><path d="M14 6l7.5 4.3L14 14.6 6.5 10.3z" fill="#fff"/><path d="M14 14.6V23l-7.5-4.3v-8.4z" fill="#fff" opacity=".6"/></svg>
+    Pertanahan Sergai
+  </a>
+  <ul>
+    <li><a href="#alur">Alur</a></li>
+    <li><a href="#layanan">Layanan</a></li>
+    <li><a href="#waktu">Waktu</a></li>
+    <li><a href="#dasar">Dasar hukum</a></li>
+    <li><a href="#tanya">Tanya jawab</a></li>
+    <li><a href="#kontak">Kontak</a></li>
+  </ul>
+  <button class="btn" type="button" data-open>Cek syarat <svg class="arrow" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 7h9M7.5 3L11.5 7l-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+</header>
+
+<main>
+<section class="track" id="alur" aria-label="Alur layanan pertanahan">
+  <div class="stage" id="stage">
+    <svg id="world" role="img" aria-label="Ilustrasi isometrik alur layanan: kantor, loket, pengukuran, pemeriksaan data, peralihan hak, dan hasil layanan"><g id="cam"></g></svg>
+
+    <div class="copy" id="copy">
+      <article class="step on" data-i="0">
+        <div class="eyebrow">Kantor Pertanahan Kabupaten Serdang Bedagai</div>
+        <h1>Layanan pertanahan <span>jelas tiap langkah.</span></h1>
+        <p class="lead">Syarat berkas, alur, dan waktu layanan dirangkum dari standar pelayanan ATR/BPN. Gulir untuk mengikuti jalurnya dari loket sampai hasil layanan.</p>
+        <div class="stats">
+          <div><b>6</b><small>kelompok layanan</small></div>
+          <div><b>12 hari</b><small>pengukuran, maksimal</small></div>
+          <div><b>10 hari</b><small>target peralihan hak</small></div>
+        </div>
+        <div class="cta">
+          <button class="btn accent" type="button" data-open>Cek syarat layanan</button>
+          <a class="btn ghost" href="#layanan">Daftar layanan</a>
+        </div>
+      </article>
+
+      <article class="step" data-i="1">
+        <div class="eyebrow">Langkah 1 · Loket pelayanan</div>
+        <h2>Serahkan berkas, <span>sekali lengkap.</span></h2>
+        <p class="lead">Petugas loket memeriksa kelengkapan berkas dan membuat tanda terima. Hitungan waktu layanan baru berjalan setelah berkas lengkap dan biaya lunas.</p>
+        <dl class="facts">
+          <div><dt>Waktu dihitung</dt><dd>Sejak berkas lengkap dan lunas</dd></div>
+          <div><dt>Biaya</dt><dd>Tarif PNBP resmi</dd></div>
+          <div><dt>WhatsApp loket</dt><dd class="hl" data-wa-text></dd></div>
+        </dl>
+      </article>
+
+      <article class="step" data-i="2">
+        <div class="eyebrow">Langkah 2 · Pengukuran</div>
+        <h2>Petugas ukur datang <span>sesuai jadwal.</span></h2>
+        <p class="lead">Sejak 17 Agustus 2026, Pengukuran Terjadwal memberi tanggal pasti dengan antrean berurutan, lalu Peta Bidang Tanah diproses.</p>
+        <dl class="facts">
+          <div><dt>Masa tunggu pengukuran</dt><dd>maks. 7 hari</dd></div>
+          <div><dt>Sampai Peta Bidang</dt><dd>maks. 5 hari</dd></div>
+          <div><dt>Total</dt><dd class="hl">maks. 12 hari</dd></div>
+        </dl>
+      </article>
+
+      <article class="step" data-i="3">
+        <div class="eyebrow">Langkah 3 · Pemeriksaan data</div>
+        <h2>Data fisik dan yuridis <span>diperiksa teliti.</span></h2>
+        <p class="lead">Pada pendaftaran tanah pertama kali, berkas dan hasil ukur diperiksa sebelum keputusan pemberian hak terbit. Lamanya menurut jenis hak dan luas tanah.</p>
+        <dl class="facts">
+          <div><dt>Konversi dan pengakuan hak</dt><dd>98 hari</dd></div>
+          <div><dt>Pemberian hak milik</dt><dd>38 / 57 / 97 hari</dd></div>
+          <div><dt>Penentu waktu</dt><dd>Luas tanah</dd></div>
+        </dl>
+      </article>
+
+      <article class="step" data-i="4">
+        <div class="eyebrow">Langkah 4 · Peralihan hak</div>
+        <h2>Jual beli, hibah, waris <span>lewat PPAT.</span></h2>
+        <p class="lead">Peralihan hak sekitar 70% dari seluruh layanan Kantor Pertanahan. PERINTIS menyatukan tahap pemda, PPAT, dan Kantor Pertanahan dalam satu target waktu.</p>
+        <dl class="facts">
+          <div><dt>Standar di Kantor Pertanahan</dt><dd>5 hari kerja</dd></div>
+          <div><dt>Seluruh alur (PERINTIS)</dt><dd class="hl">maks. 10 hari kerja</dd></div>
+          <div><dt>Target nasional</dt><dd>1 Januari 2027</dd></div>
+        </dl>
+      </article>
+
+      <article class="step" data-i="5">
+        <div class="eyebrow">Langkah 5 · Hasil layanan</div>
+        <h2>Produk layanan <span>siap diambil.</span></h2>
+        <p class="lead">Setelah proses selesai, pemohon menerima produk sesuai jenis layanan: sertipikat, peta bidang tanah, atau surat keterangan.</p>
+        <dl class="facts">
+          <div><dt>Pengecekan sertipikat</dt><dd>1 hari</dd></div>
+          <div><dt>Sertipikat pengganti (rusak)</dt><dd>19 hari</dd></div>
+          <div><dt>Sertipikat pengganti (hilang)</dt><dd>40 hari</dd></div>
+        </dl>
+        <div class="cta"><button class="btn accent" type="button" data-open>Cek syarat layanan</button></div>
+      </article>
+    </div>
+
+    <div class="hint" id="hint"><i></i>Gulir untuk melanjutkan</div>
+    <nav class="rail" id="rail" aria-label="Tahapan alur">
+      <button type="button" data-go="0">Kantah</button>
+      <button type="button" data-go="1">Loket</button>
+      <button type="button" data-go="2">Pengukuran</button>
+      <button type="button" data-go="3">Pemeriksaan</button>
+      <button type="button" data-go="4">Peralihan hak</button>
+      <button type="button" data-go="5">Hasil</button>
+    </nav>
+  </div>
+</section>
+
+<section class="page" id="layanan">
+  <div class="eyebrow">Daftar layanan</div>
+  <h2 class="h2">Layanan di Kantor Pertanahan <span>menurut kelompoknya.</span></h2>
+  <p class="sub">Pengelompokan mengikuti Peraturan Kepala BPN Nomor 1 Tahun 2010. Pilih layanan untuk melihat berkas yang perlu disiapkan.</p>
+  <div class="chips" id="chips" role="group" aria-label="Filter kelompok layanan"></div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section class="page" id="waktu">
+  <div class="eyebrow">Standar waktu</div>
+  <h2 class="h2">Tiga acuan waktu <span>yang perlu diketahui.</span></h2>
+  <p class="sub">Standar lama tetap menjadi dasar. Dua layanan baru sejak 2026 menambah kepastian waktu untuk pengukuran dan peralihan hak.</p>
+  <div class="plans">
+    <article class="plan">
+      <h3>Standar Kantor Pertanahan</h3>
+      <div class="num">5<small>hari kerja</small></div>
+      <ul>
+        <li>Peralihan hak: jual beli, waris, hibah, tukar-menukar, pembagian hak bersama, lelang.</li>
+        <li>Dihitung sejak berkas lengkap dan biaya lunas.</li>
+        <li>Tidak mencakup waktu di PPAT dan pemerintah daerah.</li>
+      </ul>
+      <p class="src">Peraturan Kepala BPN 1/2010</p>
+    </article>
+    <article class="plan hot">
+      <span class="badge">Berlaku sejak 17 Agustus 2026</span>
+      <h3>Pengukuran Terjadwal</h3>
+      <div class="num">12<small>hari, maksimal</small></div>
+      <ul>
+        <li>Masa tunggu pengukuran paling lama 7 hari dengan jadwal pasti.</li>
+        <li>Peta Bidang Tanah paling lama 5 hari setelah pengukuran.</li>
+        <li>Tersedia opsi percepatan dengan tambahan PNBP sesuai ketentuan.</li>
+      </ul>
+      <p class="src">Kementerian ATR/BPN, 31 Juli 2026</p>
+    </article>
+    <article class="plan">
+      <h3>PERINTIS, peralihan hak terintegrasi</h3>
+      <div class="num">10<small>hari kerja</small></div>
+      <ul>
+        <li>Menyatukan verifikasi BPHTB di pemda, akta di PPAT, dan proses di Kantor Pertanahan.</li>
+        <li>Proses berkas di Kantor Pertanahan paling lama 5 hari.</li>
+        <li>Diperluas bertahap, target nasional 1 Januari 2027.</li>
+      </ul>
+      <p class="src">Kementerian ATR/BPN, 2026</p>
+    </article>
+  </div>
+</section>
+
+<section class="page" id="dasar">
+  <div class="eyebrow">Dasar hukum</div>
+  <h2 class="h2">Aturan yang menjadi <span>acuan halaman ini.</span></h2>
+  <p class="sub">Daftar layanan, syarat, dan waktu disusun dari peraturan berikut. Jika ada perbedaan, peraturan resmi dan petunjuk petugas loket yang berlaku.</p>
+  <div class="laws">
+    <article class="law"><div><span class="meta">Peraturan Kepala BPN RI, 25 Januari 2010</span><h3>Nomor 1 Tahun 2010 tentang Standar Pelayanan dan Pengaturan Pertanahan</h3><p>Mengatur kelompok dan jenis pelayanan, persyaratan, biaya, waktu, prosedur, dan pelaporan. Daftar layanan dan waktu pada halaman ini mengacu pada lampirannya.</p></div></article>
+    <article class="law"><div><span class="meta">Permen ATR/Kepala BPN, 2017</span><h3>Nomor 4 Tahun 2017 tentang Standar Pelayanan Kementerian ATR/BPN</h3><p>Menetapkan komponen standar pelayanan: persyaratan, prosedur, jangka waktu, biaya, produk layanan, dan penanganan pengaduan. Waktu layanan dihitung sejak berkas lengkap dan biaya lunas.</p></div></article>
+    <article class="law"><div><span class="meta">Permen ATR/Kepala BPN, 24 Maret 2025</span><h3>Nomor 3 Tahun 2025 tentang Standar Pelayanan Penataan Ruang</h3><p>Mencabut sebagian kode standar pelayanan tata ruang dalam Permen Nomor 4 Tahun 2017. Standar pelayanan bidang pertanahan tidak diatur di sini.</p></div></article>
+    <article class="law"><div><span class="meta">Peraturan Pemerintah, 2015</span><h3>Nomor 128 Tahun 2015 tentang Jenis dan Tarif PNBP pada Kementerian ATR/BPN</h3><p>Dasar tarif biaya layanan pertanahan. Besaran bergantung pada jenis layanan dan luas tanah, jadi rinciannya ditanyakan di loket.</p></div></article>
+    <article class="law"><div><span class="meta">Kebijakan Kementerian ATR/BPN, 2026</span><h3>Pengukuran Terjadwal dan Peralihan Hak Terintegrasi (PERINTIS)</h3><p>Pengukuran Terjadwal berlaku sejak 17 Agustus 2026 dengan target 12 hari. PERINTIS menargetkan peralihan hak selesai 10 hari kerja dan diperluas bertahap menuju target nasional 1 Januari 2027.</p></div></article>
+  </div>
+</section>
+
+<section class="page" id="tanya">
+  <div class="eyebrow">Tanya jawab</div>
+  <h2 class="h2">Pertanyaan yang <span>sering muncul.</span></h2>
+  <div class="faq">
+    <details><summary>Waktu layanan dihitung mulai kapan?</summary><p>Sejak berkas diterima lengkap dan biaya yang ditetapkan sudah lunas. Waktu pengiriman berkas antara Kantor Pertanahan, Kantor Wilayah, dan BPN pusat tidak ikut dihitung.</p></details>
+    <details><summary>Berapa biaya layanan?</summary><p>Biaya mengikuti tarif PNBP Kementerian ATR/BPN (PP Nomor 128 Tahun 2015) dan berbeda untuk tiap jenis layanan. Minta rincian di loket. Jika ada permintaan biaya di luar ketentuan, sampaikan lewat kanal pengaduan di bagian kontak.</p></details>
+    <details><summary>Apa bedanya waktu standar 5 hari dengan PERINTIS 10 hari?</summary><p>Standar 5 hari kerja hanya menghitung proses di Kantor Pertanahan. PERINTIS menghitung seluruh alur peralihan hak, termasuk verifikasi BPHTB di pemda dan pembuatan akta di PPAT, dengan target maksimal 10 hari kerja.</p></details>
+    <details><summary>Sertipikat hilang, apa yang harus disiapkan?</summary><p>Ajukan sertipikat pengganti dengan surat pernyataan di bawah sumpah, laporan kehilangan dari kepolisian, dan bukti pengumuman di surat kabar. Standar waktunya 40 hari.</p></details>
+    <details><summary>Bagaimana menyampaikan pengaduan atau saran?</summary><p>Lewat LAPOR! di lapor.go.id atau WhatsApp loket. Sertakan uraian yang jelas dan bukti pendukung bila ada.</p></details>
+  </div>
+</section>
+
+<section class="page" id="kontak">
+  <div class="eyebrow">Kontak</div>
+  <h2 class="h2">Datang ke loket <span>atau tanya lewat WhatsApp.</span></h2>
+  <div class="contact">
+    <div class="panel">
+      <h3 data-k="nama"></h3>
+      <dl>
+        <div><dt>Alamat</dt><dd data-k="alamat"></dd></div>
+        <div><dt>Hari layanan</dt><dd data-k="hari"></dd></div>
+        <div><dt>WhatsApp loket</dt><dd data-wa-text></dd></div>
+      </dl>
+      <div class="cta">
+        <a class="btn accent" data-wa-link target="_blank" rel="noopener">Chat WhatsApp loket</a>
+        <button class="btn ghost" type="button" data-open>Cek syarat dulu</button>
+      </div>
+    </div>
+    <div class="side-cards">
+      <div class="mini"><h3>Pengaduan dan saran</h3><p>Sampaikan lewat <a href="https://www.lapor.go.id/instansi/kantor-pertanahan-kabupaten-serdang-bedagai" target="_blank" rel="noopener">LAPOR!</a> untuk Kantor Pertanahan Kabupaten Serdang Bedagai.</p></div>
+      <div class="mini"><h3>Sebelum datang</h3><p>Siapkan sertipikat asli, identitas, dan bukti pajak. Gunakan Cek syarat untuk daftar berkas tiap layanan.</p></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p class="note">Halaman ini media informasi untuk membantu masyarakat memahami layanan pertanahan. Bukan situs resmi Kementerian ATR/BPN dan bukan pengganti petunjuk petugas loket. Ketentuan dapat berubah, jadi periksa peraturan terbaru di JDIH ATR/BPN. Diperbarui 23 November 2026.</p>
+  <ul>
+    <li><a href="https://peraturan.go.id/files/bn431-2017.pdf" target="_blank" rel="noopener">Permen ATR/BPN 4/2017</a></li>
+    <li><a href="https://peraturan.go.id/files/permen-atrbpn-no-3-tahun-2025.pdf" target="_blank" rel="noopener">Permen ATR/BPN 3/2025</a></li>
+    <li><a href="https://sippn.menpan.go.id/images/article/temp/PERKBPN_01_2010_SPOPP_lamp2-20240528104702.pdf" target="_blank" rel="noopener">Perkaban 1/2010, Lampiran II</a></li>
+    <li><a href="https://www.atrbpn.go.id/berita/menteri-atrkepala-bpn-tetapkan-standar-waktu-layanan-untuk-pengukuran-tanah-dan-peralihan-hak" target="_blank" rel="noopener">Standar waktu layanan 2026</a></li>
+    <li><a href="https://jdih.atrbpn.go.id/" target="_blank" rel="noopener">JDIH ATR/BPN</a></li>
+  </ul>
+</footer>
+
+<div class="modal" id="wiz" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="wizTitle">
+    <aside class="side">
+      <svg id="miniScene" viewBox="-200 -150 400 260" aria-hidden="true"></svg>
+      <h3>Cek syarat layanan</h3>
+      <ol class="wsteps" id="wsteps"><li>Pilih layanan</li><li>Siapkan berkas</li><li>Waktu dan biaya</li><li>Siap ke loket</li></ol>
+      <div class="wsum" id="wsum"></div>
+    </aside>
+    <section class="wmain">
+      <button class="x" type="button" id="wx" aria-label="Tutup">&times;</button>
+      <div class="wbody" id="wbody"></div>
+      <div class="wfoot"><button class="btn ghost" type="button" id="wback">Kembali</button><button class="btn accent" type="button" id="wnext">Lanjut</button></div>
+    </section>
+  </div>
+</div>
+<script>
+/* ===== Adegan isometrik (SVG dibuat dengan kode) ===== */
+const U=48;
+const iso=(x,y,z=0)=>[(x-y)*U,(x+y)*U/2-z*U];
+const f1=n=>n.toFixed(1);
+const pt=(x,y,z)=>iso(x,y,z).map(f1).join(',');
+function shade(hex,a){if(hex.length===4)hex='#'+hex[1]+hex[1]+hex[2]+hex[2]+hex[3]+hex[3];const n=parseInt(hex.slice(1),16);let r=n>>16,g=(n>>8)&255,b=n&255;const f=a<0?v=>Math.round(v*(1+a)):v=>Math.round(v+(255-v)*a);return '#'+[r,g,b].map(f).map(v=>v.toString(16).padStart(2,'0')).join('')}
+const C={cream:'#FFF4E8',creamD:'#F2DEC8',orange:'#E8591F',ink:'#2A2420',white:'#FFFDF9',wood:'#E9C9A6',green:'#8FB58A',grass:'#D7E6BE',glassL:'#CBD7DE',glassR:'#AEBCC6',dark:'#4A3A30'};
+
+function poly(pts,fill,o={}){
+  const st=o.stroke===undefined?fill:o.stroke;
+  return `<polygon points="${pts.map(p=>pt(p[0],p[1],p[2]||0)).join(' ')}" fill="${fill}"${st&&st!=='none'?` stroke="${st}" stroke-width="${o.sw||.7}" stroke-linejoin="round"`:''}${o.extra||''}/>`;
+}
+function box(x,y,z,w,d,h,c,o={}){
+  const z1=z+h,L=o.left||c,R=o.right||shade(c,-.15),T=o.top||shade(c,.1);
+  return poly([[x,y+d,z1],[x+w,y+d,z1],[x+w,y+d,z],[x,y+d,z]],L)
+        +poly([[x+w,y,z1],[x+w,y+d,z1],[x+w,y+d,z],[x+w,y,z]],R)
+        +poly([[x,y,z1],[x+w,y,z1],[x+w,y+d,z1],[x,y+d,z1]],T);
+}
+/* permukaan dinding: 'L' menghadap +y, 'R' menghadap +x; u = 0..1 searah baca kiri ke kanan */
+function edge(face,x,y,w,d){return face==='L'?[[x,y+d],[x+w,y+d]]:[[x+w,y+d],[x+w,y]]}
+function at(face,x,y,w,d,u){const [P,Q]=edge(face,x,y,w,d);return [P[0]+(Q[0]-P[0])*u,P[1]+(Q[1]-P[1])*u]}
+function wall(face,x,y,w,d,u0,u1,z0,z1,fill){
+  const a=at(face,x,y,w,d,u0),b=at(face,x,y,w,d,u1);
+  return poly([[a[0],a[1],z0],[b[0],b[1],z0],[b[0],b[1],z1],[a[0],a[1],z1]],fill,{stroke:'none'});
+}
+function facePoly(face,x,y,w,d,pts,fill,o={}){
+  return poly(pts.map(([u,z])=>{const a=at(face,x,y,w,d,u);return [a[0],a[1],z]}),fill,{stroke:o.stroke||'none',sw:o.sw,extra:o.extra});
+}
+function ftext(face,x,y,w,d,u,z,txt,size,fill){
+  const a=at(face,x,y,w,d,u),[X,Y]=iso(a[0],a[1],z);
+  const m=face==='L'?'1,.5,0,1':'1,-.5,0,1';
+  return `<text transform="matrix(${m},${f1(X)},${f1(Y)})" font-size="${size}" font-weight="800" fill="${fill}" text-anchor="middle" font-family="Plus Jakarta Sans,system-ui,sans-serif" letter-spacing=".4">${txt}</text>`;
+}
+function windows(face,x,y,w,d,cols,rows,u0,u1,z0,z1,fill){
+  let s='';const cw=(u1-u0)/cols,rh=(z1-z0)/rows;
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)
+    s+=wall(face,x,y,w,d,u0+c*cw+cw*.14,u0+(c+1)*cw-cw*.14,z0+r*rh+rh*.16,z0+(r+1)*rh-rh*.16,fill);
+  return s;
+}
+function person(x,y,o={}){
+  const {shirt=C.orange,pants=C.ink,skin='#F0C8A4',hair='#2A1B12',s=1,seat=false,z=0,hat=null,doc=false}=o;
+  const [X,Y]=iso(x,y,z);const sh=shade(shirt,-.15);
+  let g=`<g transform="translate(${f1(X)} ${f1(Y)}) scale(${s})"><ellipse rx="11" ry="5" fill="#000" opacity=".13"/>`;
+  if(seat){
+    g+=`<rect x="-6" y="-14" width="12" height="8" rx="3" fill="${pants}"/><rect x="-6.5" y="-28" width="13" height="17" rx="5.5" fill="${shirt}"/><rect x="-10" y="-26" width="4" height="12" rx="2" fill="${sh}"/><rect x="6" y="-26" width="4" height="12" rx="2" fill="${sh}"/><circle cy="-35" r="6.2" fill="${skin}"/><path d="M-6.3,-36 a6.3,6.3 0 0 1 12.6,0 q-6.3,-3 -12.6,0z" fill="${hair}"/>`;
+    if(hat)g+=`<rect x="-7" y="-43" width="14" height="5" rx="2.5" fill="${hat}"/>`;
+  }else{
+    g+=`<rect x="-5" y="-15" width="4" height="15" rx="1.5" fill="${pants}"/><rect x="1" y="-15" width="4" height="15" rx="1.5" fill="${pants}"/><rect x="-6.5" y="-32" width="13" height="19" rx="5.5" fill="${shirt}"/><rect x="-10" y="-30" width="4" height="14" rx="2" fill="${sh}"/><rect x="6" y="-30" width="4" height="14" rx="2" fill="${sh}"/><circle cy="-38.5" r="6.2" fill="${skin}"/><path d="M-6.3,-39.5 a6.3,6.3 0 0 1 12.6,0 q-6.3,-3 -12.6,0z" fill="${hair}"/>`;
+    if(hat)g+=`<rect x="-7" y="-47" width="14" height="5" rx="2.5" fill="${hat}"/>`;
+    if(doc)g+=`<rect x="7" y="-27" width="10" height="13" rx="1.5" fill="#fff" stroke="#E7D5C3" transform="rotate(10 12 -20)"/><rect x="9" y="-24" width="6" height="1.6" fill="${C.orange}" transform="rotate(10 12 -20)"/>`;
+  }
+  return g+'</g>';
+}
+function tree(x,y,s=1,c=C.green){
+  const [X,Y]=iso(x,y,0);
+  return `<g transform="translate(${f1(X)} ${f1(Y)}) scale(${s})"><ellipse cy="2" rx="17" ry="7" fill="#000" opacity=".10"/><rect x="-2.5" y="-18" width="5" height="18" rx="2" fill="#8B5E3C"/><circle cy="-36" r="15" fill="${shade(c,-.12)}"/><circle cx="-7" cy="-28" r="11" fill="${c}"/><circle cx="8" cy="-29" r="10" fill="${shade(c,.1)}"/></g>`;
+}
+function palm(x,y,s=1){
+  const [X,Y]=iso(x,y,0);let l='';
+  [-70,-30,10,50,90,130].forEach((a,i)=>{l+=`<path d="M0,0 Q22,-12 40,6 Q22,-2 0,0Z" transform="rotate(${a-20})" fill="${i%2?'#7FA67A':'#6F9A6B'}"/>`});
+  return `<g transform="translate(${f1(X)} ${f1(Y)}) scale(${s})"><ellipse cy="2" rx="14" ry="6" fill="#000" opacity=".10"/><path d="M-2,0 Q-6,-30 2,-58 L6,-58 Q0,-30 3,0Z" fill="#A9794F"/><g transform="translate(4,-58)">${l}<circle r="3.5" fill="#7A4F2E"/></g></g>`;
+}
+function shrub(x,y,s=1){const [X,Y]=iso(x,y,0);return `<g transform="translate(${f1(X)} ${f1(Y)}) scale(${s})"><ellipse cy="1" rx="12" ry="5" fill="#000" opacity=".10"/><circle cx="-5" cy="-6" r="7" fill="#7FA67A"/><circle cx="5" cy="-7" r="8" fill="#8FB58A"/><circle cy="-11" r="6" fill="#9CC196"/></g>`}
+function platform(cx,cy,top='#FFF6EC'){
+  const h=3;
+  return poly([[cx-h+.5,cy-h+.5,-.05],[cx+h+.9,cy-h+.5,-.05],[cx+h+.9,cy+h+.9,-.05],[cx-h+.5,cy+h+.9,-.05]],'#C9A688',{stroke:'none',extra:' opacity=".26"'})
+    +box(cx-h,cy-h,0,2*h,2*h,.35,'#F2D9C2',{top})
+    +poly([[cx-h,cy-h,.35],[cx+h,cy-h,.35],[cx+h,cy+h,.35],[cx-h,cy+h,.35]],'none',{stroke:C.orange,sw:1.4,extra:' stroke-opacity=".5"'});
+}
+function chair(x,y){return box(x,y,.35,.6,.6,.42,C.wood)+box(x,y,.77,.6,.1,.42,shade(C.wood,-.08))}
+function roomWalls(cx,cy){
+  const x=cx-3,y=cy-3;
+  return box(x,y,.35,6,.22,2.6,C.white,{top:'#F1E3D2',right:'#F1E6D9'})+box(x,y,2.95,6,.22,.1,C.orange)
+    +wall('L',x,y,6,.22,.06,.94,1.0,1.7,'#D9E3E8')
+    +box(x,y,.35,.22,6,2.6,C.white,{top:'#F1E3D2',right:'#F1E6D9'})+box(x,y,2.95,.22,6,.1,C.orange)
+    +wall('R',x,y,.22,6,.06,.94,1.0,1.7,'#C9D5DC');
+}
+
+const ST=[{c:[0,0],z:2.0},{c:[7,0],z:1.0},{c:[7,7],z:.8},{c:[14,7],z:1.0},{c:[14,14],z:1.3},{c:[21,14],z:1.6}];
+const N=ST.length;
+
+function buildScene(){
+  const P=[];const put=(d,s)=>P.push([d,s]);
+  const centers=ST.map(s=>s.c);
+  const path0='M'+centers.map(c=>iso(c[0],c[1],0).map(f1).join(' ')).join(' L');
+  const path1='M'+centers.map(c=>iso(c[0],c[1],.36).map(f1).join(' ')).join(' L');
+  let under=`<path d="${path0}" fill="none" stroke="#EAC9AE" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/><path d="${path0}" fill="none" stroke="#F8E8D8" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>`;
+  let plats='';
+  ST.forEach((s,i)=>{plats+=platform(s.c[0],s.c[1],i===2?'#EDF1D9':'#FFF6EC')});
+  let ground=`<path d="${path1}" fill="none" stroke="#E8591F" stroke-opacity=".35" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 11"/><path id="route" d="${path1}" fill="none" stroke="#E8591F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
+
+  /* --- 0. Kantor --- */
+  put(-2.2+-2.2+3,
+    box(-2.2,-2.2,.35,2.8,3.4,3.8,C.cream)
+    +windows('L',-2.2,-2.2,2.8,3.4,4,2,.05,.95,2.1,3.6,C.glassL)
+    +wall('L',-2.2,-2.2,2.8,3.4,.05,.28,.75,1.45,C.glassL)+wall('L',-2.2,-2.2,2.8,3.4,.72,.95,.75,1.45,C.glassL)
+    +wall('L',-2.2,-2.2,2.8,3.4,.42,.58,.35,1.3,C.dark)
+    +wall('L',-2.2,-2.2,2.8,3.4,.26,.74,1.55,1.95,C.orange)+ftext('L',-2.2,-2.2,2.8,3.4,.5,1.64,'KANTAH',10.5,'#fff')
+    +windows('R',-2.2,-2.2,2.8,3.4,2,2,.06,.5,2.1,3.6,C.glassR)+windows('R',-2.2,-2.2,2.8,3.4,2,1,.06,.5,.8,1.45,C.glassR));
+  put(1.2,box(.6,-2.2,.35,.9,1.6,5.2,C.orange)+wall('L',.6,-2.2,.9,1.6,.2,.4,1.2,4.8,'#F7A57C')+wall('L',.6,-2.2,.9,1.6,.6,.8,1.2,4.8,'#F7A57C'));
+  put(2.4,box(-1.2,1.2,.35,1.5,.5,.1,'#EFE3D3')+box(-1.15,1.95,.35,.1,.1,1.1,'#EDE0CF')+box(.05,1.95,.35,.1,.1,1.1,'#EDE0CF')+box(-1.3,1.2,1.45,1.7,.9,.12,C.orange));
+  put(3.7,box(2.0,1.9,.35,.07,.07,4.6,'#9A9086')+poly([[2.07,1.93,4.95],[3.0,1.93,4.95],[3.0,1.93,4.67],[2.07,1.93,4.67]],'#D7262E')+poly([[2.07,1.93,4.67],[3.0,1.93,4.67],[3.0,1.93,4.39],[2.07,1.93,4.39]],'#FFFFFF'));
+  put(.4,tree(2.4,-1.9,1));put(.5,tree(-2.6,2.3,.9));put(2.9,tree(2.5,.4,.75));
+  put(2.5,person(-.5,2.7,{shirt:C.orange}));put(2.8,person(.5,2.8,{shirt:'#FFFDF9',pants:'#6B5E53',hair:'#5A3B28'}));
+
+  /* --- 1. Loket (7,0) --- */
+  put(4.1,roomWalls(7,0)+box(7.2,-2.78,1.9,1.5,.1,.65,C.ink)+ftext('L',7.2,-2.78,1.5,.1,.5,2.05,'A-012',16,C.orange));
+  put(6,person(6.0,-2.3,{shirt:'#FFFDF9',pants:C.dark}));put(6.1,person(8.2,-2.3,{shirt:C.ink,pants:C.dark,hair:'#5A3B28'}));
+  put(7.2,box(5.0,-1.7,.35,4.4,.9,.55,C.orange)+box(4.9,-1.8,.9,4.6,1.1,.1,'#FFF3E5')+box(5.8,-1.5,1.0,.5,.1,.35,C.ink)+box(8.0,-1.5,1.0,.5,.1,.35,C.ink));
+  put(7.6,person(6.4,-.1,{shirt:'#F7C9A9',pants:'#6B5E53'}));put(7.7,person(7.6,.3,{shirt:C.ink,pants:C.dark,doc:true}));
+  put(9.2,box(9.1,.3,.35,.55,.55,1.1,C.ink)+wall('L',9.1,.3,.55,.55,.15,.85,.9,1.35,C.orange));
+  put(9.4,chair(5.2,1.4)+chair(6.2,1.4)+chair(7.2,1.4)+chair(8.2,1.4));
+  put(10,person(5.5,1.85,{seat:true,shirt:C.orange}));put(10.1,person(7.5,1.85,{seat:true,shirt:C.ink,hair:'#5A3B28'}));
+  put(11,shrub(9.3,2.3,1.1));
+
+  /* --- 2. Pengukuran (7,7) --- */
+  ground+=poly([[5,5.2,.36],[9,4.9,.36],[9.2,8.8,.36],[5.2,9,.36]],C.grass,{stroke:C.orange,sw:2,extra:' stroke-dasharray="7 5"'});
+  [[5,5.2],[9,4.9],[9.2,8.8],[5.2,9]].forEach(([x,y])=>{put(x+y,box(x-.07,y-.07,.35,.14,.14,.6,C.orange,{top:'#fff'}))});
+  put(14,box(6.5,6.3,.35,1.6,1.4,1.1,C.cream)+wall('L',6.5,6.3,1.6,1.4,.12,.4,.7,1.2,C.glassL)+wall('L',6.5,6.3,1.6,1.4,.58,.8,.35,1.1,C.dark)
+    +poly([[6.4,7.8,1.45],[8.2,7.8,1.45],[8.2,7.0,2.1],[6.4,7.0,2.1]],C.orange)+poly([[8.2,6.2,1.45],[8.2,7.8,1.45],[8.2,7.0,2.1]],shade(C.orange,-.2)));
+  const tp=iso(5.9,8.1,0),pl=iso(8.7,5.6,0);
+  put(14.2,`<g transform="translate(${f1(tp[0])} ${f1(tp[1])})"><ellipse rx="12" ry="5" fill="#000" opacity=".12"/><path d="M0,-32 L-10,2 M0,-32 L10,2 M0,-32 L1,9" stroke="#6B5E53" stroke-width="2.2" stroke-linecap="round" fill="none"/><rect x="-6" y="-42" width="12" height="11" rx="3" fill="${C.orange}"/><circle cy="-37" r="2.6" fill="#fff"/></g>`);
+  put(14.4,`<g transform="translate(${f1(pl[0])} ${f1(pl[1])})"><ellipse rx="7" ry="3" fill="#000" opacity=".14"/><line y2="-62" stroke="#2A2420" stroke-width="2.2"/><rect x="-5" y="-70" width="10" height="10" rx="2" fill="${C.orange}"/><rect x="-2.5" y="-67.5" width="5" height="5" rx="1" fill="#fff"/></g>`);
+  ground+=`<line x1="${f1(tp[0])}" y1="${f1(tp[1]-37)}" x2="${f1(pl[0])}" y2="${f1(pl[1]-65)}" stroke="${C.orange}" stroke-width="1.6" stroke-dasharray="4 4" opacity=".7"/>`;
+  put(15,person(6.6,8.6,{shirt:C.orange,pants:C.dark,hat:'#FFFDF9'}));
+  const lb=iso(7.1,7.4,2.7);
+  put(30,`<g transform="translate(${f1(lb[0])} ${f1(lb[1])})"><g class="bob"><rect x="-44" y="-15" width="88" height="26" rx="13" fill="#fff"/><path d="M-5,11 L0,17 L5,11Z" fill="#fff"/><text text-anchor="middle" y="3" font-size="11" font-weight="800" fill="${C.ink}" font-family="Plus Jakarta Sans,system-ui,sans-serif">Batas bidang</text></g></g>`);
+  put(13.5,palm(9.4,4.5,1));put(14,palm(4.6,9.4,.9));put(18,tree(9.5,9.4,.8));
+
+  /* --- 3. Pemeriksaan (14,7) --- */
+  put(15.1,roomWalls(14,7)+box(12.4,4.22,.95,3.4,.1,1.4,C.white,{top:'#F1E3D2'})
+    +facePoly('L',12.4,4.22,3.4,.1,[[.07,1.1],[.46,1.08],[.5,1.95],[.1,2.0]],'#CFE0B8')
+    +facePoly('L',12.4,4.22,3.4,.1,[[.56,1.12],[.92,1.16],[.9,1.9],[.58,1.95]],'#F7C9A9',{stroke:C.orange,sw:1.6})
+    +facePoly('L',12.4,4.22,3.4,.1,[[.06,1.0],[.94,1.0],[.94,1.04],[.06,1.04]],'#E1D2C2')
+    +ftext('L',12.4,4.22,3.4,.1,.5,2.12,'PETA BIDANG TANAH',9.5,C.ink));
+  put(17.5,person(13.3,5.7,{seat:true,shirt:C.ink,pants:C.dark}));put(17.6,person(15.0,5.7,{seat:true,shirt:'#F7C9A9',pants:'#6B5E53',hair:'#5A3B28'}));
+  put(18,chair(13.0,5.0)+chair(14.7,5.0));
+  put(20,box(12.6,6.1,.35,3.6,1.5,.55,C.wood)+box(12.5,6.0,.9,3.8,1.7,.1,'#F7E6CF')
+    +box(13.0,6.3,1.0,.5,.4,.03,'#fff')+box(14.1,6.9,1.0,.5,.4,.03,'#fff')+box(15.1,6.3,1.0,.5,.4,.03,'#fff')
+    +box(15.4,6.9,1.0,.55,.4,.04,C.ink)+box(15.4,6.9,1.04,.55,.04,.32,'#3A3F45')+box(13.7,7.2,1.0,.26,.26,.24,C.orange));
+  put(22,chair(13.2,8.2)+chair(15.0,8.2));
+  put(22.6,person(13.5,8.5,{seat:true,shirt:C.orange}));put(22.7,person(15.3,8.5,{seat:true,shirt:'#FFFDF9',pants:'#6B5E53',hair:'#5A3B28'}));
+  put(23,shrub(16.3,9.2,1.1));
+
+  /* --- 4. Peralihan hak (14,14) --- */
+  ground+=`<path d="M${iso(12.5,16.2,.36).map(f1).join(' ')} L${iso(14.4,16.2,.36).map(f1).join(' ')} L${iso(14.4,13.9,.36).map(f1).join(' ')} L${iso(15.8,13.9,.36).map(f1).join(' ')}" fill="none" stroke="${C.orange}" stroke-width="2" stroke-dasharray="6 5" opacity=".6"/>`;
+  put(27.2,box(11.4,13.6,.35,2.2,2.2,2.8,C.cream)
+    +windows('L',11.4,13.6,2.2,2.2,2,1,.06,.94,1.45,2.0,C.glassL)+wall('L',11.4,13.6,2.2,2.2,.42,.58,.35,1.3,C.dark)
+    +wall('L',11.4,13.6,2.2,2.2,.26,.74,2.15,2.65,C.orange)+ftext('L',11.4,13.6,2.2,2.2,.5,2.27,'PPAT',11,'#fff')
+    +windows('R',11.4,13.6,2.2,2.2,2,1,.1,.9,1.45,2.0,C.glassR)+box(11.9,15.8,1.4,1.1,.6,.1,C.orange));
+  put(28.2,box(14.8,11.4,.35,2.0,2.0,3.3,'#F6E5D2')
+    +windows('L',14.8,11.4,2.0,2.0,3,2,.08,.92,1.6,3.0,C.glassL)+wall('L',14.8,11.4,2.0,2.0,.4,.6,.35,1.3,C.dark)
+    +wall('L',14.8,11.4,2.0,2.0,.2,.8,3.05,3.4,C.orange)+ftext('L',14.8,11.4,2.0,2.0,.5,3.12,'BPHTB',10,'#fff')
+    +windows('R',14.8,11.4,2.0,2.0,2,2,.1,.9,1.6,3.0,C.glassR));
+  put(29.3,person(13.9,14.7,{shirt:C.orange,doc:true}));put(29.8,person(14.9,15.0,{shirt:C.ink,pants:C.dark,hair:'#5A3B28'}));
+  put(23.7,tree(11.7,12.0,.85));put(33,tree(16.5,16.3,.9));
+  const dc=iso(14.4,14.9,2.0);
+  put(40,`<g transform="translate(${f1(dc[0])} ${f1(dc[1])})"><g class="bob"><rect x="-10" y="-26" width="20" height="26" rx="3" fill="#fff" stroke="#E7D5C3"/><rect x="-6" y="-20" width="12" height="2.4" fill="${C.orange}"/><rect x="-6" y="-14" width="12" height="2" fill="#E1D2C2"/><rect x="-6" y="-9" width="8" height="2" fill="#E1D2C2"/></g></g>`);
+
+  /* --- 5. Hasil (21,14) --- */
+  put(33.5,box(19.4,11.8,.35,2.8,.14,2.9,C.white,{top:'#F0E2D1'})
+    +facePoly('L',19.4,11.8,2.8,.14,[[.05,.6],[.95,.6],[.95,3.1],[.05,3.1]],'none',{stroke:C.orange,sw:2})
+    +ftext('L',19.4,11.8,2.8,.14,.5,2.5,'SERTIPIKAT',17,C.ink)+ftext('L',19.4,11.8,2.8,.14,.5,2.12,'HAK ATAS TANAH',8,'#8A7B6E')
+    +facePoly('L',19.4,11.8,2.8,.14,[[.14,1.7],[.86,1.7],[.86,1.78],[.14,1.78]],'#E1D2C2')
+    +facePoly('L',19.4,11.8,2.8,.14,[[.14,1.45],[.7,1.45],[.7,1.53],[.14,1.53]],'#E1D2C2')
+    +facePoly('L',19.4,11.8,2.8,.14,[[.14,1.2],[.55,1.2],[.55,1.28],[.14,1.28]],'#E1D2C2'));
+  const sl=at('L',19.4,11.8,2.8,.14,.78),sp=iso(sl[0],sl[1],1.0);
+  put(33.6,`<g transform="matrix(1,.5,0,1,${f1(sp[0])},${f1(sp[1])})"><circle r="17" fill="${C.orange}"/><circle r="12" fill="none" stroke="#fff" stroke-width="1.6" stroke-dasharray="2 2.4"/><path d="M-5,0 l4,4 l7,-8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>`);
+  put(35,box(20.2,13.2,.35,1.8,1.8,.45,C.cream)+box(20.5,13.5,.8,1.2,1.2,.35,C.orange));
+  put(36.4,person(21.1,14.1,{z:1.15,shirt:C.ink,pants:C.dark,hair:'#5A3B28'}));put(37,person(22.8,15.2,{shirt:C.orange,doc:true}));
+  put(32,tree(23.3,11.8,1));put(36,tree(18.7,16.3,.9));put(31,palm(18.6,12.5,1));
+  const bg=iso(21,12.6,4.2);
+  put(60,`<g transform="translate(${f1(bg[0])} ${f1(bg[1])})"><g class="bob"><circle r="16" fill="#3E9B5C"/><path d="M-7,0 l5,5 l9,-10" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></g>`);
+  let conf='';const cols=[C.orange,'#F2B84B','#3E9B5C','#F7A57C','#2A2420'];
+  for(let i=0;i<22;i++){const a=i*2.399,r=1.2+((i*37)%9)/5;const p=iso(21.4+Math.cos(a)*r*1.6,13.6+Math.sin(a)*r*1.2,2.2+((i*13)%7)/4);
+    conf+=`<g transform="translate(${f1(p[0])} ${f1(p[1])})"><rect class="fall" x="-3" y="-2" width="6" height="4" rx="1" fill="${cols[i%5]}" transform="rotate(${(i*47)%180})"/></g>`}
+  put(61,conf);
+
+  /* nomor langkah */
+  let pins='';
+  ST.forEach((s,i)=>{if(!i)return;const p=iso(s.c[0]+3,s.c[1]-3,.9);
+    pins+=`<g transform="translate(${f1(p[0])} ${f1(p[1])})"><circle r="13" fill="${C.orange}" stroke="#fff" stroke-width="3"/><text text-anchor="middle" y="4.5" font-size="13" font-weight="800" fill="#fff" font-family="Plus Jakarta Sans,system-ui,sans-serif">${i}</text></g>`});
+
+  P.sort((a,b)=>a[0]-b[0]);
+  return under+plats+ground+P.map(p=>p[1]).join('')+pins+
+    `<g id="rider"><circle class="halo" r="10" fill="${C.orange}" opacity=".5"/><circle r="9" fill="${C.orange}" stroke="#fff" stroke-width="3"/></g>`;
+}
+
+function miniScene(){
+  return platform(0,0)
+    +box(-1.8,-1.8,.35,.12,2.0,1.6,C.white)
+    +box(-1.2,-2.0,.35,2.2,.14,2.0,C.white,{top:'#F1E3D2'})
+    +facePoly('L',-1.2,-2.0,2.2,.14,[[.1,.9],[.9,.9],[.9,2.0],[.1,2.0]],'none',{stroke:C.orange,sw:1.6})
+    +ftext('L',-1.2,-2.0,2.2,.14,.5,1.45,'LAYANAN',10,C.ink)
+    +box(.4,.4,.35,1.3,1.3,.45,C.orange)
+    +person(-.6,1.1,{shirt:'#F7C9A9'})+person(-1.6,.6,{shirt:C.ink,pants:C.dark,hair:'#5A3B28'})
+    +tree(2.1,-1.7,.9);
+}
+/* ===== Data layanan (Perkaban 1/2010 Lampiran II + kebijakan 2026) ===== */
+const KANTOR={nama:'Kantor Pertanahan Kabupaten Serdang Bedagai',alamat:'Jl. Negara Km. 57, Sei Rampah, Kabupaten Serdang Bedagai, Sumatera Utara',hari:'Senin sampai Jumat (hari kerja)',wa:'6281263014723',waTampil:'+62 812-6301-4723'};
+const G={A:'Pendaftaran Tanah Pertama Kali',B:'Pemeliharaan Data',C:'Pencatatan dan Informasi',D:'Pengukuran Bidang Tanah',E:'Pengaturan dan Penataan',F:'Pengaduan'};
+const REF='Peraturan Kepala BPN 1/2010';
+const SV=[
+{id:'konversi',g:'A',n:'Konversi, Pengakuan dan Penegasan Hak',w:'98 hari',wn:'sejak berkas lengkap dan biaya lunas',s:['Formulir permohonan yang diisi dan ditandatangani','Fotokopi identitas pemohon (KTP), surat kuasa bila diwakilkan','Bukti alas hak atau bukti penguasaan tanah','Fotokopi SPPT PBB tahun berjalan','Bukti BPHTB bila terutang']},
+{id:'hakmilik',g:'A',n:'Pemberian Hak Milik',w:'38 / 57 / 97 hari',wn:'menurut luas tanah',s:['Formulir permohonan','Fotokopi identitas pemohon','Bukti perolehan tanah','Bukti pelunasan dan uang pemasukan kepada negara','Fotokopi SPPT PBB tahun berjalan']},
+{id:'hgb',g:'A',n:'Pemberian HGB dan Hak Pakai',w:'38 / 57 / 97 hari',wn:'menurut luas tanah',s:['Formulir permohonan','Identitas pemohon, atau akta pendirian bila badan hukum','Bukti perolehan atau penguasaan tanah','Izin lokasi dan proposal pengusahaan tanah (badan hukum)','Bukti pelunasan dan uang pemasukan']},
+{id:'hgu',g:'A',n:'Pemberian Hak Guna Usaha',w:'38 sampai 138 hari',wn:'perorangan 38 hari; badan hukum menurut luas',s:['Formulir permohonan','Identitas pemohon, atau akta pendirian bila badan hukum','Proposal penggunaan tanah','Izin lokasi (badan hukum)','Bukti penguasaan tanah']},
+{id:'wakaf',g:'A',n:'Pendaftaran Pertama Kali Wakaf',w:'57 sampai 98 hari',wn:'tanah negara 57 hari; tanah belum bersertipikat 98 hari',s:['Akta atau surat ikrar wakaf','Identitas wakif dan nazhir','Bukti penguasaan tanah (tanah belum bersertipikat)','Pertimbangan teknis pertanahan (tanah negara)']},
+{id:'jualbeli',g:'B',n:'Peralihan Hak: Jual Beli',w:'5 hari kerja',wn:'di Kantor Pertanahan; alur PERINTIS maks. 10 hari kerja',s:['Formulir permohonan yang ditandatangani pemohon atau kuasa','Fotokopi identitas pihak yang mengalihkan dan penerima','Sertipikat asli','Akta jual beli dari PPAT','SPPT PBB tahun berjalan dan bukti bayar','Bukti BPHTB dan PPh yang sudah divalidasi'],ref:REF+'; PERINTIS (2026)'},
+{id:'waris',g:'B',n:'Peralihan Hak: Pewarisan atau Wasiat',w:'5 hari kerja',wn:'di Kantor Pertanahan',s:['Formulir permohonan','Sertipikat asli','Surat kematian pewaris','Surat keterangan waris atau akta wasiat','Identitas seluruh ahli waris','SPPT PBB tahun berjalan dan bukti BPHTB bila terutang']},
+{id:'hibah',g:'B',n:'Peralihan Hak: Hibah',w:'5 hari kerja',wn:'di Kantor Pertanahan',s:['Formulir permohonan','Sertipikat asli','Akta hibah dari PPAT','Identitas pemberi dan penerima hibah','SPPT PBB tahun berjalan','Bukti BPHTB dan PPh bila terutang']},
+{id:'tukar',g:'B',n:'Tukar-Menukar, Pembagian Hak Bersama dan Lelang',w:'5 hari kerja',wn:'di Kantor Pertanahan',s:['Formulir permohonan','Sertipikat asli','Akta PPAT atau risalah lelang sesuai jenis peralihan','Identitas para pihak','SPPT PBB tahun berjalan','Bukti BPHTB dan PPh bila terutang']},
+{id:'gantinama',g:'B',n:'Ganti Nama Sertipikat',w:'7 hari',wn:'sejak berkas lengkap dan biaya lunas',s:['Formulir permohonan','Sertipikat asli','Dokumen perubahan nama sesuai jenis pemegang hak','Fotokopi identitas pemohon']},
+{id:'perpanjang',g:'B',n:'Perpanjangan dan Pembaruan HGB atau Hak Pakai',w:'30 sampai 97 hari',wn:'perpanjangan 30 / 49 / 89 hari; pembaruan 38 / 57 / 97 hari, menurut luas',s:['Formulir permohonan','Sertipikat asli','Identitas pemohon, atau akta pendirian bila badan hukum','Bukti penggunaan tanah sesuai peruntukan','SPPT PBB tahun berjalan']},
+{id:'ubahhak',g:'B',n:'Perubahan Hak Atas Tanah',w:'5 hari',wn:'sejak berkas lengkap dan biaya lunas',s:['Formulir permohonan','Sertipikat asli','Fotokopi identitas pemohon','Persetujuan kreditor bila tanah dibebani hak tanggungan']},
+{id:'pecah',g:'B',n:'Pemecahan dan Pemisahan Bidang Tanah',w:'15 hari',wn:'sampai 5 bidang; lebih dari 5 bidang sesuai ketentuan',s:['Formulir permohonan','Sertipikat asli','Fotokopi identitas pemohon','Rencana pemecahan atau pemisahan (sketsa bidang)','Persetujuan kreditor bila dibebani hak tanggungan']},
+{id:'gabung',g:'B',n:'Penggabungan Bidang Tanah',w:'15 hari',wn:'sampai 5 bidang; pengukuran diperlukan bila tanda batas berubah',s:['Formulir permohonan','Sertipikat asli semua bidang','Fotokopi identitas pemohon','Bukti bidang berbatasan dan dimiliki pemohon yang sama']},
+{id:'spgantirusak',g:'B',n:'Sertipikat Pengganti: Rusak atau Blanko Lama',w:'19 hari',wn:'sejak berkas lengkap dan biaya lunas',s:['Formulir permohonan','Sertipikat asli wajib diserahkan','Fotokopi identitas pemohon','SPPT PBB tahun berjalan']},
+{id:'sphilang',g:'B',n:'Sertipikat Pengganti: Hilang',w:'40 hari',wn:'sejak berkas lengkap dan biaya lunas',s:['Formulir permohonan','Surat pernyataan di bawah sumpah dari pemohon','Surat keterangan kehilangan dari kepolisian','Bukti pengumuman di surat kabar','Fotokopi identitas pemohon','SPPT PBB tahun berjalan']},
+{id:'ht',g:'B',n:'Pendaftaran Hak Tanggungan',w:'7 hari',wn:'sejak berkas lengkap dan biaya lunas',s:['Formulir permohonan','Akta Pemberian Hak Tanggungan (APHT) dari PPAT','Sertipikat asli','Identitas pemberi dan pemegang hak tanggungan']},
+{id:'roya',g:'B',n:'Roya (Penghapusan Hak Tanggungan)',w:'5 hari',wn:'sejak berkas lengkap dan biaya lunas',s:['Formulir permohonan','Surat roya atau keterangan lunas dari kreditor','Sertipikat asli','Fotokopi identitas pemohon']},
+{id:'cessie',g:'B',n:'Cessie dan Subrogasi',w:'7 hari',wn:'sejak berkas lengkap dan biaya lunas',s:['Formulir permohonan','Akta cessie atau subrogasi, atau bukti pewarisan','Sertipikat hak tanggungan','Identitas para pihak']},
+{id:'cek',g:'C',n:'Pengecekan Sertipikat',w:'1 hari',wn:'sejak berkas lengkap dan biaya lunas',s:['Formulir permohonan','Fotokopi sertipikat yang akan dicek','Fotokopi identitas pemohon','Surat kuasa bila diwakilkan']},
+{id:'skpt',g:'C',n:'Surat Keterangan Pendaftaran Tanah (SKPT)',w:'4 hari',wn:'sejak berkas lengkap dan biaya lunas',s:['Formulir permohonan','Fotokopi sertipikat atau data bidang tanah','Fotokopi identitas pemohon','Surat kuasa bila diwakilkan']},
+{id:'blokir',g:'C',n:'Pencatatan Blokir dan Sita',w:'1 sampai 3 hari',wn:'blokir dan sita 1 hari; pengangkatan sita 3 hari',s:['Surat permohonan dari pihak berwenang','Salinan penetapan atau putusan pengadilan','Identitas pemohon','Data sertipikat objek']},
+{id:'tdt',g:'C',n:'Informasi Titik Dasar Teknik',w:'3 hari',wn:'sejak berkas lengkap dan biaya lunas',s:['Formulir permohonan','Fotokopi identitas pemohon','Keterangan lokasi yang dimohon']},
+{id:'ukur',g:'D',n:'Pengukuran dan Pemetaan Bidang Tanah',w:'maks. 12 hari',wn:'Pengukuran Terjadwal: tunggu maks. 7 hari, Peta Bidang maks. 5 hari',s:['Formulir permohonan pengukuran','Fotokopi identitas pemohon','Bukti alas hak atau dasar penguasaan tanah','Fotokopi SPPT PBB tahun berjalan','Penunjukan batas dan kehadiran pemilik tanah berbatasan di lapangan'],ref:'Pengukuran Terjadwal, berlaku sejak 17 Agustus 2026',extra:'Tersedia opsi percepatan dengan tambahan PNBP sesuai ketentuan.'},
+{id:'izin',g:'E',n:'Izin Perubahan Penggunaan Tanah',w:'sesuai standar Kantor',wn:'tanyakan rincian waktu di loket',s:['Formulir permohonan','Fotokopi identitas pemohon','Bukti penguasaan tanah','Uraian rencana perubahan penggunaan tanah']},
+{id:'aduan',g:'F',n:'Pengaduan, Saran dan Masukan',w:'sesuai kanal',wn:'LAPOR! atau WhatsApp loket',s:['Identitas pelapor','Uraian pengaduan yang jelas','Bukti pendukung bila ada']}
+];
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ===== Isi kontak ===== */
+$$('[data-k]').forEach(e=>e.textContent=KANTOR[e.dataset.k]);
+$$('[data-wa-text]').forEach(e=>e.textContent=KANTOR.waTampil);
+$$('[data-wa-link]').forEach(e=>e.href=`https://wa.me/${KANTOR.wa}?text=${encodeURIComponent('Halo Kantor Pertanahan Serdang Bedagai, saya ingin bertanya tentang layanan pertanahan.')}`);
+
+/* ===== Daftar layanan ===== */
+const chipsEl=$('#chips'),gridEl=$('#grid');let fg='all';
+function chipHtml(cls){return [['all','Semua'],...Object.entries(G)].map(([k,v])=>`<button type="button" class="chip${k===fg?' on':''}" data-g="${k}" aria-pressed="${k===fg}">${esc(v)}</button>`).join('')}
+function drawGrid(){
+  chipsEl.innerHTML=chipHtml();
+  gridEl.innerHTML=SV.filter(x=>fg==='all'||x.g===fg).map(x=>`<article class="card"><span class="tag">${esc(G[x.g])}</span><h3>${esc(x.n)}</h3><div class="time"><b>${esc(x.w)}</b><small>${esc(x.wn)}</small></div><button class="btn ghost sm" type="button" data-open="${x.id}">Lihat syarat berkas</button></article>`).join('');
+}
+chipsEl.addEventListener('click',e=>{const b=e.target.closest('[data-g]');if(!b)return;fg=b.dataset.g;drawGrid()});
+drawGrid();
+
+/* ===== Panduan (modal 4 langkah) ===== */
+const wiz=$('#wiz'),wbody=$('#wbody'),wnext=$('#wnext'),wback=$('#wback');
+const W={step:0,svc:null,done:new Set(),q:'',g:'all',opener:null};
+function listHtml(){
+  const q=W.q.trim().toLowerCase();
+  const l=SV.filter(x=>(W.g==='all'||x.g===W.g)&&(!q||(x.n+' '+G[x.g]).toLowerCase().includes(q)));
+  return l.map(x=>`<button type="button" role="radio" aria-checked="${!!(W.svc&&W.svc.id===x.id)}" class="row${W.svc&&W.svc.id===x.id?' on':''}" data-pick="${x.id}"><span>${esc(x.n)}</span><em>${esc(x.w)}</em></button>`).join('')||'<p class="empty">Tidak ada layanan yang cocok. Coba kata lain.</p>';
+}
+function r0(){
+  const ch=[['all','Semua'],...Object.entries(G)].map(([k,v])=>`<button type="button" class="chip${k===W.g?' on':''}" data-wg="${k}">${esc(v)}</button>`).join('');
+  return `<h2 id="wizTitle">Pilih layanan</h2><p class="lead">Ketik nama layanan atau pilih kelompoknya.</p><label class="sr" for="wq">Cari layanan</label><input id="wq" type="search" autocomplete="off" placeholder="Contoh: jual beli, sertipikat hilang" value="${esc(W.q)}"><div class="chips small" id="wch">${ch}</div><div class="list" id="wlist" role="radiogroup" aria-label="Daftar layanan">${listHtml()}</div>`;
+}
+function r1(){
+  const s=W.svc;
+  return `<h2 id="wizTitle">Siapkan berkas</h2><p class="lead">${esc(s.n)}. Centang berkas yang sudah ada.</p><ul class="checks">${s.s.map((t,i)=>`<li><label><input type="checkbox" data-chk="${i}"${W.done.has(i)?' checked':''}><span>${esc(t)}</span></label></li>`).join('')}</ul><p class="hintline">Daftar ini ringkasan umum. Kasus tertentu bisa memerlukan berkas tambahan, dan petugas loket yang memastikan kelengkapannya.</p>`;
+}
+function r2(){
+  const s=W.svc;
+  return `<h2 id="wizTitle">Waktu dan biaya</h2><p class="lead">${esc(s.n)}</p><div class="big">${esc(s.w)}</div><p class="hintline" style="margin-top:8px">${esc(s.wn)}</p><dl class="kv"><div><dt>Cara menghitung</dt><dd>Sejak berkas lengkap dan biaya lunas. Waktu pengiriman berkas antar kantor tidak dihitung.</dd></div><div><dt>Biaya</dt><dd>Tarif PNBP Kementerian ATR/BPN (PP 128/2015). Besaran tergantung jenis layanan dan luas tanah, jadi minta rincian di loket.</dd></div><div><dt>Dasar</dt><dd>${esc(s.ref||REF)}</dd></div>${s.extra?`<div><dt>Catatan</dt><dd>${esc(s.extra)}</dd></div>`:''}</dl>`;
+}
+function summaryText(){
+  const s=W.svc,ok=s.s.filter((_,i)=>W.done.has(i)),no=s.s.filter((_,i)=>!W.done.has(i));
+  return `Layanan: ${s.n}\nWaktu: ${s.w} (${s.wn})\nBerkas siap (${ok.length} dari ${s.s.length}):\n${ok.map(t=>'- '+t).join('\n')||'- belum ada'}\nBerkas belum siap:\n${no.map(t=>'- '+t).join('\n')||'- tidak ada'}\n${KANTOR.nama}, ${KANTOR.alamat}`;
+}
+function r3(){
+  const s=W.svc,n=W.done.size,t=s.s.length;
+  const wa=`https://wa.me/${KANTOR.wa}?text=${encodeURIComponent('Halo Kantor Pertanahan Serdang Bedagai, saya ingin bertanya tentang layanan: '+s.n+'.')}`;
+  return `<h2 id="wizTitle">Siap ke loket</h2><p class="lead">Ringkasan persiapan Anda.</p><div class="sum"><b>${esc(s.n)}</b><span>Waktu layanan: ${esc(s.w)}</span><span>Berkas siap: ${n} dari ${t}${n<t?'. Lengkapi sisanya sebelum datang.':'. Semua sudah siap.'}</span></div><div class="cta" style="margin-top:18px"><button class="btn" type="button" id="wcopy">Salin ringkasan</button><a class="btn ghost" href="${wa}" target="_blank" rel="noopener">Tanya lewat WhatsApp</a></div><div id="wmanual"></div><p class="hintline">Datang ke ${esc(KANTOR.nama)}, ${esc(KANTOR.alamat)}. Hari layanan: ${esc(KANTOR.hari)}.</p>`;
+}
+function renderW(){
+  wbody.innerHTML=[r0,r1,r2,r3][W.step]();
+  $$('#wsteps li').forEach((li,i)=>{li.className=i===W.step?'on':i<W.step?'past':''});
+  wback.style.visibility=W.step?'visible':'hidden';
+  wnext.textContent=W.step===3?'Selesai':'Lanjut';
+  wnext.disabled=W.step===0&&!W.svc;
+  $('#wsum').innerHTML=W.svc?`<b>${esc(W.svc.n)}</b><span>${esc(W.svc.w)}</span>`:'';
+  wbody.scrollTop=0;
+}
+function openW(id,opener){
+  W.opener=opener||null;
+  if(id){const s=SV.find(x=>x.id===id);if(s&&(!W.svc||W.svc.id!==s.id))W.done=new Set();W.svc=s;W.step=1}
+  else{W.step=W.svc?W.step:0}
+  wiz.hidden=false;document.documentElement.style.overflow='hidden';
+  renderW();(wbody.querySelector('input,button')||$('#wx')).focus({preventScroll:true});
+}
+function closeW(){wiz.hidden=true;document.documentElement.style.overflow='';if(W.opener&&W.opener.focus)W.opener.focus({preventScroll:true})}
+document.addEventListener('click',e=>{
+  const o=e.target.closest('[data-open]');if(o){openW(o.dataset.open||null,o);return}
+  if(e.target===wiz)closeW();
+});
+$('#wx').addEventListener('click',closeW);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!wiz.hidden)closeW()});
+wnext.addEventListener('click',()=>{if(W.step===3){closeW();return}if(W.step===0&&!W.svc)return;W.step++;renderW()});
+wback.addEventListener('click',()=>{if(W.step>0){W.step--;renderW()}});
+wbody.addEventListener('input',e=>{if(e.target.id==='wq'){W.q=e.target.value;$('#wlist').innerHTML=listHtml()}});
+wbody.addEventListener('change',e=>{const c=e.target.closest('[data-chk]');if(!c)return;const i=+c.dataset.chk;c.checked?W.done.add(i):W.done.delete(i)});
+wbody.addEventListener('click',async e=>{
+  const p=e.target.closest('[data-pick]');
+  if(p){const s=SV.find(x=>x.id===p.dataset.pick);if(!W.svc||W.svc.id!==s.id)W.done=new Set();W.svc=s;$('#wlist').innerHTML=listHtml();wnext.disabled=false;$('#wsum').innerHTML=`<b>${esc(s.n)}</b><span>${esc(s.w)}</span>`;return}
+  const g=e.target.closest('[data-wg]');
+  if(g){W.g=g.dataset.wg;$$('#wch .chip').forEach(c=>c.classList.toggle('on',c.dataset.wg===W.g));$('#wlist').innerHTML=listHtml();return}
+  if(e.target.id==='wcopy'){
+    const t=summaryText();
+    try{await navigator.clipboard.writeText(t);e.target.textContent='Tersalin'}
+    catch(_){$('#wmanual').innerHTML=`<textarea class="manual" readonly aria-label="Ringkasan untuk disalin"></textarea>`;const ta=$('#wmanual textarea');ta.value=t;ta.focus();ta.select()}
+  }
+});
+const mini=$('#miniScene');
+mini.innerHTML=miniScene();
+
+/* ===== Kamera bergulir ===== */
+const track=$('#alur'),stage=$('#stage'),cam=$('#cam'),world=$('#world');
+cam.innerHTML=buildScene();
+const route=$('#route'),rider=$('#rider');
+const routeLen=route.getTotalLength();
+route.style.strokeDasharray=routeLen;
+const anchors=ST.map(s=>iso(s.c[0],s.c[1],s.z));
+const steps=$$('.step'),railBtns=$$('#rail button'),hint=$('#hint');
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const ease=t=>t*t*(3-2*t);
+let cur=0,tgt=0,active=-1;
+function lay(){
+  const W_=stage.clientWidth,H=stage.clientHeight,m=W_<=820;
+  return m?{ax:W_/2,ay:H*.3,s:Math.min(W_*.95/(12.6*U),(H*.46)/(10*U))}:{ax:W_*.7,ay:H*.5,s:Math.min(W_*.56/(12.6*U),(H*.86)/(10*U))};
+}
+function frame(){
+  const r=track.getBoundingClientRect(),H=stage.clientHeight,total=track.offsetHeight-H;
+  const p=clamp(-r.top/total,0,1);
+  tgt=p*(N-1);
+  cur=reduce?tgt:cur+(tgt-cur)*.16;
+  if(Math.abs(tgt-cur)<.0005)cur=tgt;
+  const i=Math.min(N-2,Math.floor(cur)),t=cur-i;
+  const e=ease(clamp((t-.2)/.6,0,1)),eff=i+e;
+  const L=lay(),a0=anchors[i],a1=anchors[i+1];
+  const ax=a0[0]+(a1[0]-a0[0])*e,ay=a0[1]+(a1[1]-a0[1])*e;
+  const sc=L.s*(1-.1*Math.sin(Math.PI*e));
+  cam.setAttribute('transform',`translate(${(L.ax-ax*sc).toFixed(1)} ${(L.ay-ay*sc).toFixed(1)}) scale(${sc.toFixed(4)})`);
+  route.style.strokeDashoffset=routeLen*(1-eff/(N-1));
+  const c0=ST[i].c,c1=ST[i+1].c,rx=c0[0]+(c1[0]-c0[0])*e,ry=c0[1]+(c1[1]-c0[1])*e,rp=iso(rx,ry,.4);
+  rider.setAttribute('transform',`translate(${rp[0].toFixed(1)} ${rp[1].toFixed(1)})`);
+  const a=Math.round(eff);
+  if(a!==active){active=a;steps.forEach((s,k)=>s.classList.toggle('on',k===a));railBtns.forEach((b,k)=>{b.classList.toggle('on',k===a);b.classList.toggle('past',k<a)})}
+  hint.style.opacity=p>.02?0:1;
+  requestAnimationFrame(frame);
+}
+function goStep(k){
+  const top=track.getBoundingClientRect().top+scrollY,total=track.offsetHeight-stage.clientHeight;
+  scrollTo({top:top+total*(k/(N-1))+1,behavior:reduce?'auto':'smooth'});
+}
+$('#rail').addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)goStep(+b.dataset.go)});
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
